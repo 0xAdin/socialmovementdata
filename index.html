@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Why nonviolent campaigns are winning less often</title>
+<meta name="description" content="622 resistance campaigns from 1900 to 2019, and three explanations for why their success rate has fallen.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Newsreader:opsz,wght@6..72,500;6..72,600&display=swap" rel="stylesheet">
+<style>
+/* Layout idea: one reading column that argues a case in order: the pattern, three explanations tested in turn, a summary, then extras. Each chart is framed by how to read it above and its takeaway below. */
+:root{
+  --page:#f9f9f7; --surface:#fcfcfb; --ink:#0b0b0b; --ink2:#52514e; --muted:#898781;
+  --grid:#e1e0d9; --axis:#c3c2b7; --border:rgba(11,11,11,.10); --wash:rgba(11,11,11,.05);
+  --r0:#2a78d6; --r1:#eb6834; --r2:#1baf7a; --r3:#eda100; --r4:#e87ba4;
+  --nv:#6250d6; --nv2:#b3a9ee; --ctx2:#8a8982; --ctx3:#d6d5ce; --takebg:#f1effb;
+  --display:"Newsreader",Georgia,serif; --body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){ color-scheme:dark;
+    --page:#0d0d0d; --surface:#1a1a19; --ink:#f0efec; --ink2:#c3c2b7; --muted:#898781;
+    --grid:#2c2c2a; --axis:#383835; --border:rgba(255,255,255,.10); --wash:rgba(255,255,255,.07);
+    --r0:#3987e5; --r1:#d95926; --r2:#199e70; --r3:#c98500; --r4:#d55181;
+    --nv:#9085e9; --nv2:#4a418f; --ctx2:#8f8e87; --ctx3:#3d3d3a; --takebg:#23213a; }
+}
+:root[data-theme="dark"]{ color-scheme:dark;
+  --page:#0d0d0d; --surface:#1a1a19; --ink:#f0efec; --ink2:#c3c2b7; --muted:#898781;
+  --grid:#2c2c2a; --axis:#383835; --border:rgba(255,255,255,.10); --wash:rgba(255,255,255,.07);
+  --r0:#3987e5; --r1:#d95926; --r2:#199e70; --r3:#c98500; --r4:#d55181;
+  --nv:#9085e9; --nv2:#4a418f; --ctx2:#8f8e87; --ctx3:#3d3d3a; --takebg:#23213a; }
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--page);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.55}
+.wrap{max-width:1040px;margin:0 auto;padding:40px 18px 64px;display:flex;flex-direction:column;gap:28px}
+h1{font-family:var(--display);font-weight:600;font-size:clamp(30px,5vw,46px);line-height:1.08;margin:0;text-wrap:balance;max-width:20ch}
+h2{font-family:var(--display);font-weight:600;font-size:clamp(23px,3.2vw,29px);line-height:1.18;margin:0;text-wrap:balance}
+h3{font-size:17px;font-weight:600;line-height:1.3;margin:0;text-wrap:balance}
+.lede{color:var(--ink2);font-size:18px;max-width:64ch;margin:14px 0 0}
+.keys{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:18px 22px}
+.keys h2{font-family:var(--body);font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.keys ol{margin:0;padding-left:22px;display:flex;flex-direction:column;gap:8px;max-width:72ch}
+.keys li::marker{font-weight:600;color:var(--nv)}
+.filters{position:sticky;top:0;z-index:5;display:flex;flex-direction:column;gap:8px;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:10px 16px}
+.fnote{font-size:12.5px;color:var(--muted);margin:0}
+.frow{display:flex;flex-wrap:wrap;gap:6px 8px;align-items:center}
+.flabel{font-size:12.5px;color:var(--muted);width:100%}
+@media(min-width:720px){.flabel{width:170px}}
+button.chip{font:inherit;font-size:13px;color:var(--ink);background:transparent;border:1px solid var(--axis);border-radius:999px;padding:3px 12px;cursor:pointer;display:inline-flex;align-items:center;gap:7px}
+button.chip:hover{background:var(--wash)}
+button.chip[aria-pressed="true"]{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink);font-weight:500}
+button.chip:focus-visible{outline:2px solid var(--nv);outline-offset:2px}
+.sw{width:10px;height:10px;border-radius:2px;flex:none}
+.sec{display:flex;flex-direction:column;gap:14px;padding-top:10px;border-top:1px solid var(--grid)}
+.secintro{margin:0;color:var(--ink2);max-width:66ch}
+.cards{display:flex;flex-direction:column;gap:18px;margin-top:4px}
+.cards.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,440px),1fr))}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:20px 20px 16px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.how{margin:0;color:var(--ink2);font-size:14.5px;max-width:78ch}
+.controls{display:flex;flex-direction:column;gap:8px}
+.plot{width:100%;min-width:0}
+.take{background:var(--takebg);border-left:3px solid var(--nv);border-radius:0 8px 8px 0;padding:12px 16px}
+.take .tk{display:block;font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--nv);margin-bottom:4px}
+.take p{margin:0;max-width:76ch;font-size:15px}
+footer{color:var(--ink2);font-size:14px;max-width:80ch;border-top:1px solid var(--grid);padding-top:16px}
+footer h2{font-family:var(--body);font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+footer p{margin:0 0 10px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1>Why are nonviolent campaigns winning less often?</h1>
+  <p class="lede">For most of the last century, mass campaigns that set out to topple a government, end an occupation or win independence became steadily more likely to succeed, as long as they stayed nonviolent. In the 2010s that changed. This page uses 622 campaigns from 1900 to 2019 to test three explanations for the drop.</p>
+</header>
+<section class="keys" aria-label="Main findings">
+  <h2>Main findings</h2>
+  <ol>
+    <li>Nonviolent campaigns succeeded 64% of the time in the 1990s and 35% in the 2010s, even as their number more than doubled.</li>
+    <li>Most of the recent drop is a scoring rule. Campaigns still under way in 2019 are counted as failures; among those that had finished, 50% succeeded.</li>
+    <li>Crowding explains little. Campaigns that overlap with others in the same country do win less, but mostly because overlap happens in countries where winning is hard anyway.</li>
+    <li>Falling freedom does not explain it. Campaigns do better where freedom has been rising, but no more of them now start where it is falling than did in the 2000s.</li>
+    <li>Where campaigns happen matters somewhat. More of them now take place in regions where success has always been lower.</li>
+  </ol>
+</section>
+<div class="filters" id="filters">
+  <div class="frow" id="f-region"><span class="flabel">Show one region</span></div>
+  <div class="frow" id="f-ongoing"><span class="flabel">Unfinished campaigns</span></div>
+  <p class="fnote">These two settings apply to every chart unless a chart says otherwise. The written takeaways describe the starting view: all regions, with unfinished campaigns counted as failures.</p>
+</div>
+<div id="sections" style="display:flex;flex-direction:column;gap:34px"></div>
+<footer>
+  <h2>About the data</h2>
+  <p><b>Campaigns.</b> The NAVCO 1.3 list compiled by Erica Chenoweth and Christopher Wiley Shay (Harvard Dataverse). It covers 622 mass campaigns from 1900 to 2019 with a "maximalist" goal: removing a government, ending a foreign occupation, or secession. Each is coded as primarily nonviolent or violent, and as a success, a limited success, a failure, or ongoing. Here "succeeded" means full success only.</p>
+  <p><b>Freedom index.</b> The Civil Liberties Index from the V-Dem Institute, which scores every country in every year from 0 (least free) to 1 (most free). Each campaign is matched to its country's score in the year it began; 617 of the 622 have one. Where V-Dem has no score for a territory in that year, the governing state's score is used.</p>
+  <p><b>Choices made here.</b> The source file has no regions, so each country was assigned to one of five by hand. Three campaigns that began in 1899 are counted in 1900. "Starting" counts a campaign once, in the period it began, with its final outcome whenever that came. "Active" counts it in every period from start to end. Freedom "falling" or "rising" means a change of more than 0.05 over the five years before the campaign began. A success rate is shown only for groups of at least 5 campaigns unless a chart says otherwise.</p>
+  <p><b>Limits.</b> Groups get small quickly once the data is split three ways, so single-decade figures for small groups can swing widely. The dataset sometimes records one conflict as several campaigns, which inflates overlap. The comparisons show what goes together, not what causes what.</p>
+</footer>
+</div>
+<script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+<script src="data.js"></script>
+<script>
+const REG=["Sub-Saharan Africa","Middle East & North Africa","Asia & Pacific","Europe & former USSR","Americas"];
+const D=RAW.map(a=>({r:a[0],b:Math.max(a[1],1900),e:a[2],s:a[3],lim:a[4],o:a[5],nv:a[6],rs:a[7],co:a[8],f:a[9],ch:a[10],nm:a[11],loc:a[12],g:a[13],fa:a[14],c:a[15],ao:a[16]}));
+const YEARS=[];for(let y=1900;y<=2019;y++)YEARS.push(y);
+const DECS=[];for(let d=1900;d<=2010;d+=10)DECS.push(d);
+const DL=DECS.map(d=>d+'s');
+const state={region:-1,ongoing:'fail',mode:'start',crowd:'avg',dtype:'nv',dgroup:'region',msplit:'dir',sfrom:2000};
+const a5s=new Set();
+const a5r=new Set([0,1,2,3,4]);
+const COEF=[{"m": "ao", "label": "No adjustments", "b": -0.0468, "lo": -0.086, "hi": -0.0075, "p": 0.019, "n": 622}, {"m": "ao", "label": "+ type and decade", "b": -0.0473, "lo": -0.0877, "hi": -0.0069, "p": 0.022, "n": 622}, {"m": "ao", "label": "+ how long it lasted", "b": -0.0435, "lo": -0.0836, "hi": -0.0034, "p": 0.033, "n": 622}, {"m": "ao", "label": "+ unfinished left out", "b": -0.048, "lo": -0.1026, "hi": 0.0067, "p": 0.085, "n": 560}, {"m": "ao", "label": "+ same-country comparison", "b": -0.0146, "lo": -0.0879, "hi": 0.0586, "p": 0.695, "n": 517}, {"m": "co", "label": "No adjustments", "b": -0.0528, "lo": -0.0792, "hi": -0.0263, "p": 0.0, "n": 622}, {"m": "co", "label": "+ type and decade", "b": -0.0544, "lo": -0.0809, "hi": -0.028, "p": 0.0, "n": 622}, {"m": "co", "label": "+ how long it lasted", "b": -0.0521, "lo": -0.0786, "hi": -0.0257, "p": 0.0, "n": 622}, {"m": "co", "label": "+ unfinished left out", "b": -0.0583, "lo": -0.0964, "hi": -0.0203, "p": 0.003, "n": 560}, {"m": "co", "label": "+ same-country comparison", "b": -0.0436, "lo": -0.0897, "hi": 0.0026, "p": 0.065, "n": 517}];
+const DIRS=()=>[['Freedom was falling',0,T.r[1]],['Freedom was steady',1,T.v],['Freedom was rising',2,T.r[2]]];
+const sel=new Set([0,1,2,3,4,5,6,7,8,9,10,11]);
+const $=s=>document.querySelector(s);
+function h(tag,cls,text,parent){const e=document.createElement(tag);if(cls)e.className=cls;if(text!=null)e.textContent=text;if(parent)parent.appendChild(e);return e}
+const tok=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+let T={};function readTokens(){T={ink:tok('--ink'),ink2:tok('--ink2'),muted:tok('--muted'),grid:tok('--grid'),axis:tok('--axis'),surface:tok('--surface'),nv:tok('--nv'),nv2:tok('--nv2'),v:tok('--ctx2'),v2:tok('--ctx3'),r:[0,1,2,3,4].map(i=>tok('--r'+i))};T.pal=[T.r[0],T.r[1],T.r[2],T.r[3],T.r[4],T.nv,'#0ca30c','#e34948']}
+const FONT='IBM Plex Sans, system-ui, sans-serif';
+const ax=o=>Object.assign({gridcolor:T.grid,linecolor:T.axis,zerolinecolor:T.axis,tickfont:{color:T.muted,size:11},automargin:true,title:{font:{size:12,color:T.muted}}},o||{});
+const PCT=o=>ax(Object.assign({tickformat:'.0%',range:[0,1.03]},o||{}));
+function L(o){const b={font:{family:FONT,size:12,color:T.ink2},paper_bgcolor:'rgba(0,0,0,0)',plot_bgcolor:'rgba(0,0,0,0)',margin:{l:50,r:14,t:6,b:36},showlegend:true,legend:{orientation:'h',x:0,y:1.02,yanchor:'bottom',font:{size:11.5}},hoverlabel:{bgcolor:T.surface,bordercolor:T.axis,font:{color:T.ink,family:FONT,size:12}},xaxis:ax(),yaxis:ax(),bargap:.25,bargroupgap:.08};
+  for(const k in o)b[k]=o[k];return b}
+function plot(el,traces,layout,h){el.style.height=(h||340)+'px';Plotly.react(el,traces,L(layout||{}),{displayModeBar:false,responsive:true})}
+
+const inRegion=()=>D.filter(d=>state.region<0||d.r===state.region);
+const judged=()=>inRegion().filter(d=>state.ongoing==='fail'||!d.o);
+const member=(d,d0)=>state.mode==='start'?(d.b>=d0&&d.b<d0+10):(d.b<=d0+9&&d.e>=d0);
+const rate=(g,min)=>g.length>=(min||5)?g.reduce((a,d)=>a+d.s,0)/g.length:null;
+const mean=a=>a.length?a.reduce((x,y)=>x+y,0)/a.length:null;
+const TYPES=[{k:'nv',name:'Nonviolent',f:d=>d.nv===1,col:()=>T.nv},{k:'v',name:'Violent',f:d=>d.nv===0,col:()=>T.v}];
+const regs=()=>REG.map((n,i)=>({n,i})).filter(x=>state.region<0||x.i===state.region);
+const HT='%{y:.0%} (n=%{customdata})<extra>%{fullData.name}</extra>';
+function typeSeries(groups,kind,rows){rows=rows||judged();return TYPES.map(t=>{const gs=groups.map(g=>rows.filter(d=>t.f(d)&&g.f(d)));const base={name:t.name,x:groups.map(g=>g.label),y:gs.map(g=>rate(g)),customdata:gs.map(g=>g.length),hovertemplate:HT};
+  return kind==='bar'?Object.assign(base,{type:'bar',marker:{color:t.col()}}):Object.assign(base,{type:'scatter',mode:'lines+markers',line:{color:t.col(),width:t.k==='nv'?3:2},marker:{size:7,color:t.col()},connectgaps:false})})}
+const decGroups=()=>DECS.map(d0=>({label:d0+'s',f:d=>member(d,d0)}));
+const roll=(rows,f)=>YEARS.map(y=>{const g=rows.filter(d=>Math.abs(d.b-y)<=2&&f(d));return g.length>=8?g.reduce((a,d)=>a+d.s,0)/g.length:null});
+const ols=(xs,ys)=>{const n=xs.length,mx=mean(xs),my=mean(ys);let sxy=0,sxx=0,syy=0;for(let i=0;i<n;i++){sxy+=(xs[i]-mx)*(ys[i]-my);sxx+=(xs[i]-mx)**2;syy+=(ys[i]-my)**2}const b=sxx?sxy/sxx:0;return {b,a:my-b*mx,r:(sxx&&syy)?sxy/Math.sqrt(sxx*syy):0}};
+const countries=()=>FREE.map((c,i)=>Object.assign({i},c)).filter(c=>state.region<0||c.r===state.region);
+const cmean=c=>mean(c.v.filter(x=>x!=null));
+const FB=[0,.2,.4,.6,.8,1.0001],FBL=['0.0–0.2','0.2–0.4','0.4–0.6','0.6–0.8','0.8–1.0'];
+const dirOf=d=>d.ch<-0.05?0:(d.ch>0.05?2:1);
+
+const CHARTS=[
+{id:"rates",sec:"pattern",toggle:1,a5:1,title:"Campaigns per decade and how often they succeeded",how:"Lines show the share of campaigns that fully achieved their goal (left scale). The bars behind show how many campaigns there were (right scale); in each pair the left bar is nonviolent and the striped right bar is violent. Click a region to add it in its own colour: a solid line for nonviolent, a dotted line for violent. A rate is drawn only where there are at least 5 campaigns.",take:"Nonviolent campaigns succeeded 64% of the time in the 1990s, 52% in the 2000s and 35% in the 2010s. Over the same period the number of nonviolent campaigns starting each decade more than doubled, from 42 to 93. Violent campaigns became rarer and their success rate fell to 11%.",draw(el){const ok=d=>state.ongoing==='fail'||!d.o,S=Array.from(a5s).sort(),dim=S.length>0;
+  const cnt=(rows,t)=>DECS.map(d0=>rows.filter(d=>t.f(d)&&member(d,d0)).length);
+  const tr=TYPES.map((t,k)=>{const y=cnt(D,t);return {type:'bar',showlegend:false,x:DL,y,yaxis:'y2',offsetgroup:t.k,marker:{color:t.col(),opacity:dim?.16:.3,pattern:k?{shape:'/',fgcolor:T.surface,size:6,solidity:.3}:{}},text:dim?null:y.map(String),textposition:'outside',textfont:{size:10,color:T.muted},cliponaxis:false,hovertemplate:'%{y} campaigns<extra>All regions, '+t.name.toLowerCase()+'</extra>'}});
+  TYPES.forEach((t,k)=>{const base=DECS.map(()=>0);S.forEach(R=>{const y=cnt(D.filter(d=>d.r===R),t);tr.push({type:'bar',showlegend:false,x:DL,y,base:base.slice(),customdata:y,yaxis:'y2',offsetgroup:t.k,marker:{color:T.r[R],opacity:.8,pattern:k?{shape:'/',fgcolor:T.surface,size:6,solidity:.3}:{}},hovertemplate:'%{customdata} campaigns<extra>'+REG[R]+', '+t.name.toLowerCase()+'</extra>'});y.forEach((v,q)=>{base[q]+=v})})});
+  typeSeries(decGroups(),null,D.filter(ok)).forEach((t,k)=>tr.push(Object.assign(t,{name:'All regions, '+t.name.toLowerCase(),opacity:dim?.45:1,mode:dim?'lines+markers':'lines+markers+text',texttemplate:'%{y:.0%}',textposition:k?'bottom center':'top center',textfont:{size:10.5,color:T.ink},cliponaxis:false})));
+  S.forEach(R=>typeSeries(decGroups(),null,D.filter(d=>d.r===R&&ok(d))).forEach((t,k)=>tr.push(Object.assign(t,{name:REG[R]+', '+t.name.toLowerCase(),mode:S.length===1?'lines+markers+text':'lines+markers',texttemplate:'%{y:.0%}',textposition:k?'bottom center':'top center',textfont:{size:10.5,color:T.ink},cliponaxis:false,line:{color:T.r[R],width:3,dash:k?'dot':'solid'},marker:{size:8,color:T.r[R],symbol:k?'diamond':'circle'}}))));
+  plot(el,tr,{barmode:'group',bargap:.25,yaxis:PCT({title:{text:'Share that succeeded'},overlaying:'y2',range:[0,1.05]}),yaxis2:ax({side:'right',showgrid:false,title:{text:'Campaigns'},rangemode:'tozero'}),margin:{l:54,r:54,t:6,b:30}},540)}},
+{id:"years",sec:"pattern",toggle:1,yearly:1,title:"When and where campaigns started",how:"One bar per year, coloured by region. Switch to \"Active that year\" to count every campaign under way in a year, not only the ones that began in it.",take:"Campaigns arrive in waves. The two largest are 1989 to 1991, around the collapse of the Soviet bloc, and 2011, the year of the Arab Spring. The 2010s averaged 11 new campaigns a year, up from 8 a year in the 2000s.",draw(el){const rows=inRegion();const tr=REG.map((n,r)=>({type:'bar',name:n,x:YEARS,y:YEARS.map(()=>0),marker:{color:T.r[r]}}));
+  rows.forEach(d=>{if(state.mode==='start')tr[d.r].y[d.b-1900]++;else for(let y=d.b;y<=d.e;y++)tr[d.r].y[y-1900]++});
+  plot(el,tr.filter((t,i)=>state.region<0||i===state.region),{barmode:'stack',bargap:.12,yaxis:ax({title:{text:'Campaigns'}})})}},
+{id:"ended",sec:"unfinished",toggle:1,title:"How campaigns ended, decade by decade",how:"Every campaign in a decade falls into one of four outcomes: succeeded, partly succeeded, failed, or still under way when the data ends in 2019.",take:"42 of the 112 campaigns that began in the 2010s were still unfinished in 2019, and the standard scoring counts every one of them as a failure. Among nonviolent campaigns that had finished, 50% succeeded, almost the same as the 52% of the 2000s. Most of the apparent collapse is this scoring rule. The real figure depends on how the unfinished campaigns end.",draw(el){const rows=inRegion();
+  const cats=[['Succeeded',d=>d.s,T.nv],['Limited success',d=>!d.s&&d.lim,T.nv2],['Failed',d=>!d.s&&!d.lim&&!d.o,T.v],['Unfinished in 2019',d=>!d.s&&!d.lim&&d.o,T.v2]];
+  plot(el,cats.map(c=>({type:'bar',name:c[0],x:DL,y:DECS.map(d0=>rows.filter(d=>member(d,d0)&&c[1](d)).length),marker:{color:c[2]},hovertemplate:'%{y:.0f}%<extra>%{fullData.name}</extra>'})),{barmode:'stack',barnorm:'percent',yaxis:ax({ticksuffix:'%',range:[0,100]})})}},
+{id:"overlap",sec:"crowding",crowd:1,title:"Success rate by overlap with other campaigns in the same country",how:"Campaigns are grouped by how many other campaigns were active in the same country while they ran. \"Average while it ran\" averages that count over every year of the campaign; \"In its start year\" counts only the first year.",take:"The more a campaign overlapped with others in its country, the less often it won. Nonviolent campaigns succeeded 50% of the time with no overlap and 17% with heavy overlap. On its face this looks like crowding.",draw(el){
+  const B=state.crowd==='avg'?[['None',d=>d.ao===0],['Up to 1',d=>d.ao>0&&d.ao<=1],['1 to 2',d=>d.ao>1&&d.ao<=2],['More than 2',d=>d.ao>2]]:[['None',d=>d.co===0],['1',d=>d.co===1],['2',d=>d.co===2],['3 or more',d=>d.co>=3]];
+  plot(el,typeSeries(B.map(([label,f])=>({label,f})),'bar'),{yaxis:PCT(),xaxis:ax({type:'category',title:{text:state.crowd==='avg'?'Other campaigns active in the country, averaged over the campaign':'Other campaigns active in the country in the start year'}})})}},
+{id:"overlapdots",sec:"crowding",crowd:1,title:"The same comparison, showing every campaign",how:"Each dot is one campaign. Dots stacked above the line succeeded (filled) and dots below it did not (hollow). Left to right is more overlap. In each group the purple stack is nonviolent and the grey stack is violent. The label gives the share that succeeded and the number of campaigns.",take:"Most campaigns never overlapped with another: 384 of 622. Heavy overlap is rare, only 20 campaigns, so the right-hand groups rest on thin evidence.",draw(el){const rows=judged(),avg=state.crowd==='avg',cols=10;
+  const B=avg?[['None',d=>d.ao===0],['Up to 1',d=>d.ao>0&&d.ao<=1],['1 to 2',d=>d.ao>1&&d.ao<=2],['More than 2',d=>d.ao>2]]:[['None',d=>d.co===0],['1',d=>d.co===1],['2',d=>d.co===2],['3 or more',d=>d.co>=3]];
+  let up=1,down=1;const ann=[];
+  const tr=TYPES.map((t,k)=>{const xs=[],ys=[],tx=[],sy=[];B.forEach(([label,f],bi)=>{const g=rows.filter(d=>t.f(d)&&f(d)),cx=bi+(k?.25:-.25);
+      [[g.filter(d=>d.s),1],[g.filter(d=>!d.s),-1]].forEach(([list,sign])=>{list.forEach((d,q)=>{xs.push(cx+((q%cols)-(cols-1)/2)*.04);ys.push(sign*(Math.floor(q/cols)+1));tx.push(d.nm+' ('+d.loc+', '+d.b+')');sy.push(sign>0?'circle':'circle-open')});const r=Math.ceil(list.length/cols);if(sign>0)up=Math.max(up,r);else down=Math.max(down,r)});
+      if(g.length)ann.push({x:cx,y:Math.ceil(g.filter(d=>d.s).length/cols)+1.1,yanchor:'bottom',text:(g.length>=5?'<b>'+Math.round(rate(g)*100)+'%</b> of '+g.length:g.length+' only'),showarrow:false,font:{size:11.5,color:T.ink}})});
+    return {type:'scatter',mode:'markers',name:t.name,x:xs,y:ys,text:tx,marker:{size:7,color:t.col(),symbol:sy,line:{color:t.col(),width:1.3}},hovertemplate:'%{text}<extra>'+t.name+'</extra>'}});
+  ann.push({xref:'paper',x:0,xanchor:'left',y:up+2.6,text:'Succeeded',showarrow:false,font:{size:12,color:T.muted}},{xref:'paper',x:0,xanchor:'left',y:-down-.9,text:'Did not succeed',showarrow:false,font:{size:12,color:T.muted}});
+  plot(el,tr,{annotations:ann,yaxis:ax({range:[-down-1.8,up+3.6],showticklabels:false,showgrid:false,zeroline:true,zerolinecolor:T.ink,zerolinewidth:1.5}),xaxis:ax({tickvals:B.map((b,q)=>q),ticktext:B.map(b=>b[0]),range:[-.6,B.length-.4],showgrid:false,zeroline:false,title:{text:avg?'Other campaigns active in the country, averaged over the campaign':'Other campaigns active in the country in the start year'}})},Math.max(420,(up+down)*17+170))}},
+{id:"samecountry",sec:"crowding",title:"Inside the same country, did overlapping campaigns do worse?",how:"Countries with many overlapping campaigns might simply be hard places to win. To remove that, this chart looks only at countries that had both kinds of campaign, some overlapping and some running alone, and asks which kind did better inside each country.",take:"It is close to an even split: overlapping campaigns did worse in 24 countries, better in 18, and the same in 13. Most of the pattern in the two charts above comes from where overlap happens. Countries such as India, Iraq and Pakistan have many campaigns and low success in general. Crowding itself explains little, and counting campaigns across a whole region in the same year shows no link with success at all.",draw(el){const rows=judged(),m={};rows.forEach(d=>{const o=(m[d.loc]=m[d.loc]||{a:[],b:[]});(d.ao>0?o.b:o.a).push(d)});
+  const ds=Object.values(m).filter(o=>o.a.length&&o.b.length).map(o=>rate(o.b,1)-rate(o.a,1)),c=[ds.filter(x=>x<0).length,ds.filter(x=>x===0).length,ds.filter(x=>x>0).length];
+  plot(el,[{type:'bar',x:['Overlapping campaigns<br>did worse','No difference','Overlapping campaigns<br>did better'],y:c,text:c.map(String),textposition:'outside',textfont:{size:13,color:T.ink},cliponaxis:false,marker:{color:[T.r[1],T.v2,T.r[2]]},hovertemplate:'%{y} countries<extra></extra>'}],{showlegend:false,yaxis:ax({title:{text:'Countries'},range:[0,Math.max(...c)*1.2+1]}),xaxis:ax({type:'category'}),
+    annotations:[{xref:'paper',yref:'paper',x:1,y:1,xanchor:'right',yanchor:'top',align:'right',showarrow:false,font:{size:12,color:T.ink2},text:ds.length+' countries had both kinds.<br>Average gap: '+(mean(ds)*100).toFixed(0)+' points'}]},360)}},
+{id:"freedom",sec:"freedom",toggle:1,dtype:1,msplit:1,title:"Success by which way freedom was moving, with each group drawn at its true size",how:"Top panel: the freedom index over time, for the world and for the countries with an active campaign. Bottom panel: each decade is one block, split into bars. A bar's height is the success rate of that group and its width is the group's share of that decade's campaigns, so a wide bar counts for more and a sliver counts for little. The black line is the overall success rate, which is exactly the average of the bars weighted by their width. The default split is by what the country's freedom index did in the five years before the campaign began: fell by more than 0.05, held steady, or rose by more than 0.05.",take:"Campaigns that began where freedom had been rising succeed most often: 64% in the 1990s and 67% in the 2010s. But the share of campaigns starting where freedom had been falling hardly changed between the 2000s (27%) and the 2010s (25%), so a turn toward authoritarianism cannot be what drove the drop. Success fell inside the groups instead, from 50% to 22% where freedom had been falling and from 53% to 36% where it was steady. The top panel shows that campaign countries are freer than they used to be, not less free.",draw(el){const tf={nv:d=>d.nv===1,v:d=>d.nv===0,all:()=>true}[state.dtype],base=inRegion().filter(tf),J=base.filter(d=>state.ongoing==='fail'||!d.o);
+  const G=state.msplit==='dir'?[['Freedom had been falling',d=>d.ch!=null&&dirOf(d)===0,T.r[1],'#ffffff'],['Freedom was steady',d=>d.ch!=null&&dirOf(d)===1,T.v,'#ffffff'],['Freedom had been rising',d=>d.ch!=null&&dirOf(d)===2,T.r[2],'#ffffff']]
+    :state.msplit==='tier'?[['Less free countries (index under 0.33)',d=>d.f!=null&&d.f<.33,'#9ec5f4','#0b0b0b'],['In between (0.33 to 0.66)',d=>d.f!=null&&d.f>=.33&&d.f<.66,'#3987e5','#ffffff'],['Freer countries (over 0.66)',d=>d.f!=null&&d.f>=.66,'#104281','#ffffff']]
+    :regs().map(x=>[x.n,d=>d.r===x.i,T.r[x.i],x.i===3?'#0b0b0b':'#ffffff']);
+  const rows=J.filter(d=>G.some(g=>g[1](d))),dd=DECS.filter(d=>d>=1940);
+  const tr=G.map(g=>({type:'bar',name:g[0],x:[],y:[],width:[],text:[],customdata:[],textposition:'inside',insidetextanchor:'start',textangle:0,textfont:{size:10.5,color:g[3]},marker:{color:g[2],line:{color:T.surface,width:1.5}},hovertemplate:'%{customdata[2]}: %{y:.0%} succeeded<br>%{customdata[0]} campaigns, %{customdata[1]:.0f}% of the decade<extra>'+g[0]+'</extra>'}));
+  const ox=[],oy=[],on=[];
+  dd.forEach(d0=>{const mem=rows.filter(d=>member(d,d0)),N=mem.length;let start=d0+.5;if(!N)return;
+    G.forEach((g,k)=>{const q=mem.filter(g[1]),n=q.length;if(!n)return;const w=9*n/N,r=rate(q,1);tr[k].x.push(start+w/2);tr[k].y.push(r);tr[k].width.push(w);tr[k].text.push(w>=1.5&&r>=.08?Math.round(r*100)+'%':'');tr[k].customdata.push([n,100*n/N,d0+'s']);start+=w});
+    if(N>=5){ox.push(d0+5);oy.push(rate(mem,1));on.push(N)}});
+  tr.push({type:'scatter',mode:'lines+markers+text',name:'Overall success rate',x:ox,y:oy,customdata:on,text:oy.map(v=>'<b>'+Math.round(v*100)+'%</b>'),textposition:'top center',textfont:{size:12,color:T.ink},cliponaxis:false,line:{color:T.ink,width:3},marker:{size:8,color:T.ink,line:{color:T.surface,width:2}},hovertemplate:'%{y:.0%} overall (%{customdata} campaigns)<extra></extra>'});
+  const act=base.filter(d=>d.c>=0),yrs=YEARS.filter(y=>y>=1940);
+  tr.push({type:'scatter',mode:'lines',name:'Freedom index, countries with an active campaign',x:yrs,y:yrs.map(y=>{const vs=act.filter(d=>d.b<=y&&d.e>=y).map(d=>FREE[d.c].v[y-1900]).filter(v=>v!=null);return vs.length>=3?mean(vs):null}),yaxis:'y2',line:{color:T.r[0],width:2.5},hovertemplate:'%{x}: %{y:.2f}<extra>Countries with an active campaign</extra>'});
+  tr.push({type:'scatter',mode:'lines',name:'Freedom index, world average',x:yrs,y:yrs.map(y=>WORLD[y-1900]),yaxis:'y2',line:{color:T.ink2,width:2,dash:'dot'},hovertemplate:'%{x}: %{y:.2f}<extra>World average</extra>'});
+  plot(el,tr,{barmode:'overlay',xaxis:ax({range:[1939.5,2020.5],tickvals:dd.map(d=>d+5),ticktext:dd.map(d=>d+'s'),showgrid:false}),yaxis:PCT({domain:[0,.6],range:[0,1.08],title:{text:'Share that succeeded'}}),yaxis2:ax({domain:[.72,1],range:[0,1],title:{text:'Freedom index'},tickvals:[0,.5,1]}),margin:{l:54,r:14,t:6,b:30}},660)}},
+{id:"summary",sec:"together",sfrom:1,title:"How much of the drop does each explanation account for?",how:"Each bar takes one explanation and asks: if this were the only thing that changed, how much of the fall in nonviolent success would it produce? For the bottom four, the 2010s campaigns are given the earlier decade's success rates, so only the mix of campaigns changes. The explanations overlap, so the bars do not add up to 100%. All regions.",take:"Compared with the 2000s, counting unfinished campaigns as failures accounts for about 90% of the drop. A shift toward regions where success is lower, mainly the Middle East and North Africa and Europe and the former Soviet states, accounts for about 16%. Falling freedom, less free countries and overlap between campaigns each account for roughly nothing. Compared with the 1990s the picture is less one-sided: unfinished campaigns account for about half and the regional shift for about a third.",draw(el){const from=state.sfrom,nv=D.filter(d=>d.nv===1),A=nv.filter(d=>d.b>=from&&d.b<from+10),B=nv.filter(d=>d.b>=2010),ra=rate(A,1),rb=rate(B,1);
+  const fin=1-(rate(A.filter(d=>!d.o),1)-rate(B.filter(d=>!d.o),1))/(ra-rb);
+  const mix=key=>{const A2=A.filter(d=>key(d)!=null),B2=B.filter(d=>key(d)!=null),a=rate(A2,1),b=rate(B2,1);const m=mean(B2.map(d=>{const g=A2.filter(x=>key(x)===key(d));return g.length>=3?rate(g,1):a}));return (a-m)/(a-b)};
+  const items=[['Unfinished campaigns are<br>counted as failures',fin],['More campaigns in regions<br>where success is lower',mix(d=>d.r)],['More campaigns where freedom<br>had been falling',mix(d=>d.ch==null?null:dirOf(d))],['More campaigns in<br>less free countries',mix(d=>d.f==null?null:(d.f<.33?0:d.f<.66?1:2))],['More overlap with other<br>campaigns in the same country',mix(d=>d.ao===0?0:d.ao<=1?1:2)]].sort((a,b)=>a[1]-b[1]);
+  plot(el,[{type:'bar',orientation:'h',y:items.map(x=>x[0]),x:items.map(x=>x[1]*100),text:items.map(x=>(Math.abs(x[1])<.005?'0':Math.round(x[1]*100))+'%'),textposition:'outside',textfont:{size:13,color:T.ink},cliponaxis:false,marker:{color:items.map(x=>x[1]>.005?T.nv:T.v2)},hovertemplate:'%{x:.0f}% of the drop<extra></extra>'}],
+    {showlegend:false,margin:{l:230,r:40,t:34,b:44},xaxis:ax({range:[Math.min(-15,Math.min(...items.map(x=>x[1]*100))-8),105],ticksuffix:'%',title:{text:'Share of the drop this explains on its own'},zeroline:true,zerolinecolor:T.ink,zerolinewidth:1.5}),yaxis:ax({type:'category'}),
+     annotations:[{xref:'paper',yref:'paper',x:0,y:1.02,xanchor:'left',yanchor:'bottom',showarrow:false,font:{size:13,color:T.ink},text:'Nonviolent success fell from <b>'+Math.round(ra*100)+'%</b> ('+from+'s) to <b>'+Math.round(rb*100)+'%</b> (2010s)'}]},380)}},
+{id:"countries",sec:"more",title:"Countries with the most campaigns",how:"The 20 countries with the most campaigns from 1900 to 2019, split into nonviolent and violent.",take:"India has the most campaigns (22), followed by China and Russia (16 each). In most of these countries violent campaigns outnumber nonviolent ones.",draw(el){const rows=inRegion(),m={};rows.forEach(d=>{const k=d.c>=0?FREE[d.c].n:d.loc;(m[k]=m[k]||[0,0])[d.nv?0:1]++});
+  const top=Object.entries(m).sort((a,b)=>(b[1][0]+b[1][1])-(a[1][0]+a[1][1])).slice(0,20).reverse();
+  plot(el,TYPES.map((t,j)=>({type:'bar',orientation:'h',name:t.name,y:top.map(x=>x[0]),x:top.map(x=>x[1][j]),marker:{color:t.col()}})),{barmode:'stack',margin:{l:170,r:14,t:6,b:36},xaxis:ax({title:{text:'Campaigns'}})},520)}},
+{id:"goals",sec:"more",title:"Success rate by what the campaign wanted",how:"Campaigns are grouped by their main goal: changing the regime, ending a foreign occupation, or breaking away to form a new state.",take:"Nonviolent campaigns do best when the goal is regime change: 52% succeed, against 26% of violent ones. Ending an occupation is the one goal where violent campaigns succeed more often (35% against 21%). Secession almost never works either way (6%).",draw(el){const G=['Regime change','End occupation','Secession','Other'];plot(el,typeSeries(G.map((label,i)=>({label,f:d=>d.g===i})),'bar'),{yaxis:PCT()})}},
+{id:"duration",sec:"more",title:"Success rate by how long the campaign lasted",how:"Duration is the end year minus the start year.",take:"Short campaigns win more often. Nonviolent campaigns that ended within two years succeeded about half the time; those lasting ten years or more succeeded a third of the time.",draw(el){const B=[['Same year',0,0],['1–2 years',1,2],['3–9 years',3,9],['10+ years',10,999]];plot(el,typeSeries(B.map(([label,lo,hi])=>({label,f:d=>d.e-d.b>=lo&&d.e-d.b<=hi})),'bar'),{yaxis:PCT()})}},
+];
+const SECS=[["pattern", "1. The pattern", "Resistance campaigns are more common than at any point since 1900, and most are now nonviolent. Their success rate, which rose for half a century, has dropped sharply."], ["unfinished", "2. First explanation: many recent campaigns are not over yet", "A campaign that is still going has not failed, but the usual scoring treats it as if it had."], ["crowding", "3. Second explanation: too many campaigns at once", "If campaigns compete for attention, supporters and resources, more of them at the same time should mean fewer wins for each."], ["freedom", "4. Third explanation: freedom is in retreat", "If governments are becoming more repressive, campaigns should be failing because the ground under them is getting harder."], ["together", "5. Putting it together", ""], ["more", "Additional findings", "Other patterns in the same data."]];
+/* ---------- build the page ---------- */
+function chipRow(row,opts,key,onchange){opts.forEach(o=>{const b=h('button','chip',null,row);b.type='button';b.dataset.key=key;b.dataset.v=o.v;if(o.sw!=null){const s=h('span','sw',null,b);s.style.background='var(--r'+o.sw+')'}b.appendChild(document.createTextNode(o.label));
+  b.setAttribute('aria-pressed',String(String(state[key])===String(o.v)));b.addEventListener('click',()=>{state[key]=o.v;document.querySelectorAll('button.chip[data-key="'+key+'"]').forEach(x=>x.setAttribute('aria-pressed',String(x.dataset.v===String(o.v))));onchange()})})}
+chipRow($('#f-region'),[{v:-1,label:'All regions'}].concat(REG.map((n,i)=>({v:i,label:n,sw:i}))),'region',renderAll);
+chipRow($('#f-ongoing'),[{v:'fail',label:'Count as failures'},{v:'drop',label:'Leave out'}],'ongoing',renderAll);
+const els={};
+(function build(){const root=$('#sections');SECS.forEach(([sid,title,intro])=>{const sec=h('section','sec',null,root);sec.id=sid;h('h2',null,title,sec);if(intro)h('p','secintro',intro,sec);const grid=h('div',sid==='more'?'cards two':'cards',null,sec);
+  CHARTS.filter(c=>c.sec===sid).forEach(c=>{const card=h('article','card',null,grid);card.id='chart-'+c.id;h('h3',null,c.title,card);h('p','how',c.how,card);
+    const ctl=h('div','controls',null,card);
+    if(c.toggle){const row=h('div','frow',null,ctl);chipRow(row,c.yearly?[{v:'start',label:'Starting that year'},{v:'active',label:'Active that year'}]:[{v:'start',label:'Starting that decade'},{v:'active',label:'Active that decade'}],'mode',()=>CHARTS.filter(x=>x.toggle).forEach(draw))}
+    if(c.crowd){const row=h('div','frow',null,ctl);chipRow(row,[{v:'avg',label:'Average while it ran'},{v:'start',label:'In its start year'}],'crowd',()=>CHARTS.filter(x=>x.crowd).forEach(draw))}
+    if(c.dtype){const row=h('div','frow',null,ctl);chipRow(row,[{v:'nv',label:'Nonviolent'},{v:'v',label:'Violent'},{v:'all',label:'All campaigns'}],'dtype',()=>CHARTS.filter(x=>x.dtype).forEach(draw))}
+    if(c.msplit){const row=h('div','frow',null,ctl);chipRow(row,[{v:'dir',label:'Split by direction of freedom'},{v:'tier',label:'Split by level of freedom'},{v:'region',label:'Split by region'}],'msplit',()=>draw(c))}
+    if(c.sfrom){const row=h('div','frow',null,ctl);chipRow(row,[{v:2000,label:'Compared with the 2000s'},{v:1990,label:'Compared with the 1990s'}],'sfrom',()=>draw(c))}
+    if(c.a5){const row=h('div','frow',null,ctl);const btns=[];const sync=()=>btns.forEach(([b,v])=>b.setAttribute('aria-pressed',String(v<0?a5s.size===0:a5s.has(v))));
+      [[-1,'All campaigns only']].concat(REG.map((n,i)=>[i,n])).forEach(([v,label])=>{const b=h('button','chip',null,row);b.type='button';b.id='pick-region-'+(v<0?'all':v);if(v>=0){const sw=h('span','sw',null,b);sw.style.background='var(--r'+v+')'}b.appendChild(document.createTextNode(label));btns.push([b,v]);b.addEventListener('click',()=>{if(v<0)a5s.clear();else if(a5s.has(v))a5s.delete(v);else a5s.add(v);sync();draw(c)})});sync()}
+    if(!ctl.children.length)ctl.remove();
+    const p=h('div','plot',null,card);p.id='plot-'+c.id;els[c.id]=p;
+    const tk=h('div','take',null,card);h('span','tk','Takeaway',tk);h('p',null,c.take,tk)})})})();
+function draw(c){try{c.draw(els[c.id])}catch(e){console.error(c.id,e)}}
+function renderAll(){CHARTS.forEach(draw)}
+readTokens();renderAll();
+const retheme=()=>{readTokens();renderAll()};
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change',retheme);
+new MutationObserver(retheme).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+</script>
+</body>
+</html>
